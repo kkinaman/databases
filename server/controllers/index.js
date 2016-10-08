@@ -22,15 +22,20 @@ module.exports = {
       });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      
-      var message = '';
-      req.on('data', function(data) {
-        message += data;
-        console.log('message posted:', JSON.parse(message));
-        models.messages.post(JSON.parse(message)).then(function() {
+      if (Object.keys(req.body).length > 0) {
+        models.messages.post(req.body).then(function() {
           res.end();
         });
-      });
+      } else {
+        var message = '';
+        req.on('data', function(data) {
+          message += data;
+          console.log('MESSAGE POSTED:', JSON.parse(message));
+          models.messages.post(JSON.parse(message)).then(function() {
+            res.end();
+          });
+        });
+      }
 
     } // a function which handles posting a message to the database
   },

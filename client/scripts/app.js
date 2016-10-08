@@ -86,7 +86,7 @@ var app = {
         app.renderMessages(data, animate);
 
         // Store the ID of the most recent message
-        app.lastMessageId = mostRecentMessage.objectId;
+        // app.lastMessageId = mostRecentMessage.objectId;
         // } //COMMENTED OUT TO FORCE REFRESH
       },
       error: function(error) {

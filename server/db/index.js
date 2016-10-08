@@ -1,6 +1,8 @@
 // Database
 var Sequelize = require('sequelize');
-var db = new Sequelize('chat', 'root', 'pass');
+var db = new Sequelize('chat', 'root', 'pass', {
+  logging: false
+});
 
 var User = exports.users = db.define('users', {
   id: {
