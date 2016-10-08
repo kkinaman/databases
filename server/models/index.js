@@ -4,15 +4,22 @@ var Promise = require('bluebird');
 module.exports = {
   messages: {
     get: function () {
-      return new Promise(function(resolve, reject) {
-        db.query('SELECT u.username, m.text, m.roomname FROM messages m inner join users u on (m.user_id = u.id)', function(err, results) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(results);
-          }
-        });
+      
+      return db.messages.findAll({
+        include: [
+        {model: db.users,
+          required: true}]
       });
+      // return new Promise(function(resolve, reject) {
+        
+      //   db.query('SELECT u.username, m.text, m.roomname FROM messages m inner join users u on (m.user_id = u.id)', function(err, results) {
+      //     if (err) {
+      //       reject(err);
+      //     } else {
+      //       resolve(results);
+      //     }
+      //   });
+      // });
     }, // a function which produces all the messages
     post: function (message) {
       console.log('username in models file', message.username);
