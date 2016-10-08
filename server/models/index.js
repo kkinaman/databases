@@ -15,9 +15,17 @@ module.exports = {
       });
     }, // a function which produces all the messages
     post: function (message) {
+      console.log('username in models file', message.username);
+      
+      // return new Promise(function(resolve, reject) {
+
+      // }).then(function() {
+
+      // });
+
       return new Promise(function(resolve, reject) {
         //INSERT INTO messages (text, user_id, roomname) values ('In mercy\'s name, three days is all I need.', (select id FROM users WHERE username = 'Valjean'), 'Hello');
-        db.query('INSERT INTO messages (text, user_id, roomname) values (?, (select id FROM users WHERE username = ?), ?)', [message.message, message.username, message.roomname], function(err, results) {
+        db.query('INSERT INTO messages (text, user_id, roomname) values (?, (select id FROM users WHERE username = ?), ?)', [message.text, message.username, message.roomname], function(err, results) {
           if (err) {
             reject(err);
           } else {
