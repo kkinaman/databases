@@ -5,12 +5,10 @@ module.exports = {
   messages: {
     get: function () {
       return new Promise(function(resolve, reject) {
-        db.query('SELECT * FROM messages', function(err, results) {
+        db.query('SELECT u.username, m.text, m.roomname FROM messages m inner join users u on (m.user_id = u.id)', function(err, results) {
           if (err) {
-            console.log(err);
             reject(err);
           } else {
-            console.log('messages', results[0]);
             resolve(results);
           }
         });
@@ -23,7 +21,6 @@ module.exports = {
           if (err) {
             reject(err);
           } else {
-            console.log(results);
             resolve(results);
           }
         });
@@ -41,7 +38,6 @@ module.exports = {
           if (err) {
             reject(err);
           } else {
-            console.log(results);
             resolve(results);
           }
         });

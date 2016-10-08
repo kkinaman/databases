@@ -61,29 +61,30 @@ var app = {
     $.ajax({
       url: app.server,
       type: 'GET',
-      data: { order: '-createdAt' },
+      // data: { order: '-createdAt' },
       contentType: 'application/json',
       success: function(data) {
+        data = JSON.parse(data);
         // Don't bother if we have nothing to work with
-        if (!data.results || !data.results.length) { return; }
+        if (!data || !data.length) { return; }
 
         // Store messages for caching later
-        app.messages = data.results;
+        app.messages = data;
 
         // Get the last message
-        var mostRecentMessage = data.results[data.results.length - 1];
+        var mostRecentMessage = data[data.length - 1];
 
         // Only bother updating the DOM if we have a new message
-        if (mostRecentMessage.objectId !== app.lastMessageId) {
-          // Update the UI with the fetched rooms
-          app.renderRoomList(data.results);
+        // if (mostRecentMessage.objectId !== app.lastMessageId) { //COMMENTED OUT TO FORCE REFRESH
+        // Update the UI with the fetched rooms
+        app.renderRoomList(data);
 
-          // Update the UI with the fetched messages
-          app.renderMessages(data.results, animate);
+        // Update the UI with the fetched messages
+        app.renderMessages(data, animate);
 
-          // Store the ID of the most recent message
-          app.lastMessageId = mostRecentMessage.objectId;
-        }
+        // Store the ID of the most recent message
+        app.lastMessageId = mostRecentMessage.objectId;
+        // } //COMMENTED OUT TO FORCE REFRESH
       },
       error: function(error) {
         console.error('chatterbox: Failed to fetch messages', error);
@@ -116,6 +117,7 @@ var app = {
   },
 
   renderRoomList: function(messages) {
+    app.clearMessages();
     app.$roomSelect.html('<option value="__newRoom">New room...</option>');
 
     if (messages) {
