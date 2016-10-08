@@ -26,7 +26,7 @@ module.exports = {
       var message = '';
       req.on('data', function(data) {
         message += data;
-        // console.log(message);
+        console.log('message posted:', JSON.parse(message));
         models.messages.post(JSON.parse(message)).then(function() {
           res.end();
         });

@@ -10,41 +10,29 @@ module.exports = {
         {model: db.users,
           required: true}]
       });
-      // return new Promise(function(resolve, reject) {
-        
-      //   db.query('SELECT u.username, m.text, m.roomname FROM messages m inner join users u on (m.user_id = u.id)', function(err, results) {
-      //     if (err) {
-      //       reject(err);
-      //     } else {
-      //       resolve(results);
-      //     }
-      //   });
-      // });
+
     }, // a function which produces all the messages
     post: function (message) {
-      console.log('username in models file', message.username);
-      
-      return new Promise(function(resolve, reject) {
-        db.query('INSERT IGNORE INTO users (username) values (?)', [message.username], function(err, results) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(results);
-          }
+      console.log('message in models', message);
+      return db.users.findOrCreate({
+        where: {username: message.username}
+      })
+      .then(function() {
+        console.log('IN THE THEN:', message.username);
+        return db.users.findOne({
+          where: {username: message.username}
+          // attributes: ['id', ['id']]
         });
-      }).then(function() {
-        return new Promise(function(resolve, reject) {
-          db.query('INSERT INTO messages (text, user_id, roomname) values (?, (select id FROM users WHERE username = ?), ?)', [message.text, message.username, message.roomname], function(err, results) {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(results);
-            }
-          });
+      })
+      .then(function(user) {
+        console.log('LAST THEN BEFORE POST', message.text, user.id, message.roomname);
+        return db.messages.create({
+          text: message.text,
+          'user_id': user.id,
+          roomname: message.roomname
         });
       });
-
-    } // a function which can be used to insert a message into the database
+    }
   },
 
   users: {
