@@ -18,7 +18,7 @@ module.exports = {
       console.log('username in models file', message.username);
       
       return new Promise(function(resolve, reject) {
-        db.query('INSERT INTO users (username) values (?)', [message.username], function(err, results) {
+        db.query('INSERT IGNORE INTO users (username) values (?)', [message.username], function(err, results) {
           if (err) {
             reject(err);
           } else {
