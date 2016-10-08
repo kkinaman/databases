@@ -69,7 +69,7 @@ var app = {
         data = JSON.parse(data);
         console.log(data);
         // Don't bother if we have nothing to work with
-        if (!data || !data.length) { return; }
+        // if (!data || !data.length) { return; }
 
         // Store messages for caching later
         app.messages = data;

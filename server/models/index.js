@@ -32,7 +32,27 @@ module.exports = {
           roomname: message.roomname
         });
       });
-    }
+      // return new Promise(function(resolve, reject) {
+      //   db.query('INSERT IGNORE INTO users (username) values (?)', [message.username], function(err, results) {
+      //     if (err) {
+      //       reject(err);
+      //     } else {
+      //       resolve(results);
+      //     }
+      //   });
+      // }).then(function() {
+      //   return new Promise(function(resolve, reject) {
+      //     db.query('INSERT INTO messages (text, user_id, roomname) values (?, (select id FROM users WHERE username = ?), ?)', [message.text, message.username, message.roomname], function(err, results) {
+      //       if (err) {
+      //         reject(err);
+      //       } else {
+      //         resolve(results);
+      //       }
+      //     });
+      //   });
+      // });
+
+    } // a function which can be used to insert a message into the database
   },
 
   users: {
