@@ -7,9 +7,10 @@ module.exports = {
       return new Promise(function(resolve, reject) {
         db.query('SELECT * FROM messages', function(err, results) {
           if (err) {
+            console.log(err);
             reject(err);
           } else {
-            console.log(results);
+            console.log('messages', results[0]);
             resolve(results);
           }
         });
