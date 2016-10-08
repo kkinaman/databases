@@ -7,17 +7,11 @@ CREATE TABLE users (
   username VARCHAR(255)
 );
 
-CREATE TABLE rooms (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  roomname VARCHAR(255)
-);
-
 CREATE TABLE messages (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   text VARCHAR(255),
   createdAt DATETIME,
   user_id INT,
-  room_id INT,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (room_id) REFERENCES rooms(id)
+  roomname VARCHAR(255),
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );

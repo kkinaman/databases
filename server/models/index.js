@@ -17,7 +17,8 @@ module.exports = {
     }, // a function which produces all the messages
     post: function (message) {
       return new Promise(function(resolve, reject) {
-        db.query('INSERT INTO messages (text, user_id, room_id) select ?, id FROM users WHERE username = ?, id FROM rooms WHERE roomname = ?', [messages.text, messages.username, messages.roomname], function(err, results) {
+        //INSERT INTO messages (text, user_id, roomname) values ('In mercy\'s name, three days is all I need.', (select id FROM users WHERE username = 'Valjean'), 'Hello');
+        db.query('INSERT INTO messages (text, user_id, roomname) values (?, (select id FROM users WHERE username = ?), ?)', [message.message, message.username, message.roomname], function(err, results) {
           if (err) {
             reject(err);
           } else {
@@ -33,7 +34,21 @@ module.exports = {
   users: {
     // Ditto as above.
     get: function () {},
-    post: function () {}
+    post: function (user) {
+      return new Promise(function(resolve, reject) {
+        db.query('INSERT INTO users (username) VALUES (?)', [user.username], function(err, results) {
+          if (err) {
+            reject(err);
+          } else {
+            console.log(results);
+            resolve(results);
+          }
+        });
+      });
+    }
   }
 };
+
+
+//INSERT INTO messages (text, user_id, roomname) select 'In mercy\'s name, three days is all I need.', id FROM users WHERE username = Valjean, Hello
 
